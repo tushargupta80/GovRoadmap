@@ -7,8 +7,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'ClearTechnique - Master Government Exams',
+  description: 'Comprehensive exam preparation platform for SSC, UPSC, and other government exams with mock tests, study roadmaps, and coaching marketplace',
   generator: 'v0.app',
   icons: {
     icon: [
