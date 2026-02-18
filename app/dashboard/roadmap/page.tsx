@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import DashboardNav from '@/components/dashboard/nav'
 import { CheckCircle2, Circle, Lock, BookOpen, Play } from 'lucide-react'
 import ProgressCard from '@/components/dashboard/progress-card'
+import { InteractiveRoadmap } from '@/components/roadmap/interactive-roadmap'
 
 interface Topic {
   id: string
@@ -14,6 +15,10 @@ interface Topic {
   progress: number
   estimatedHours: number
   lessonCount: number
+  description?: string
+  subtopics?: string[]
+  prerequisites?: string[]
+  resources?: { title: string; type: string }[]
 }
 
 interface Subject {
@@ -23,6 +28,7 @@ interface Subject {
   totalTopics: number
   estimatedDaysRemaining: number
   topics: Topic[]
+  topicOrder?: string[]
 }
 
 const roadmapData: Subject[] = [
@@ -32,13 +38,89 @@ const roadmapData: Subject[] = [
     completedTopics: 8,
     totalTopics: 15,
     estimatedDaysRemaining: 18,
+    topicOrder: ['1', '2', '3', '4', '5', '6'],
     topics: [
-      { id: '1', name: 'Simplification & Approximation', status: 'completed', progress: 100, estimatedHours: 4, lessonCount: 3 },
-      { id: '2', name: 'Percentage & Ratio', status: 'completed', progress: 100, estimatedHours: 5, lessonCount: 4 },
-      { id: '3', name: 'Time & Work', status: 'in-progress', progress: 65, estimatedHours: 6, lessonCount: 4 },
-      { id: '4', name: 'Speed, Time & Distance', status: 'pending', progress: 0, estimatedHours: 5, lessonCount: 3 },
-      { id: '5', name: 'Average & Partnership', status: 'pending', progress: 0, estimatedHours: 4, lessonCount: 2 },
-      { id: '6', name: 'Profit & Loss', status: 'pending', progress: 0, estimatedHours: 5, lessonCount: 3 },
+      {
+        id: '1',
+        name: 'Simplification & Approximation',
+        status: 'completed',
+        progress: 100,
+        estimatedHours: 4,
+        lessonCount: 3,
+        description: 'Master the fundamentals of mathematical simplification and approximation techniques.',
+        subtopics: ['BODMAS Rule', 'Fractions & Decimals', 'Surds & Indices', 'Square Roots'],
+        prerequisites: [],
+        resources: [
+          { title: 'Simplification Basics', type: 'Video Tutorial' },
+          { title: 'Practice Problems', type: 'Worksheet' }
+        ]
+      },
+      {
+        id: '2',
+        name: 'Percentage & Ratio',
+        status: 'completed',
+        progress: 100,
+        estimatedHours: 5,
+        lessonCount: 4,
+        description: 'Learn percentage calculations and ratio comparisons with real-world applications.',
+        subtopics: ['Percentage Formula', 'Profit & Loss', 'Discount & Markup', 'Ratio Comparison'],
+        prerequisites: ['Simplification & Approximation'],
+        resources: [
+          { title: 'Percentage Guide', type: 'Notes' },
+          { title: 'Ratio Problems', type: 'Practice Set' }
+        ]
+      },
+      {
+        id: '3',
+        name: 'Time & Work',
+        status: 'in-progress',
+        progress: 65,
+        estimatedHours: 6,
+        lessonCount: 4,
+        description: 'Understand work-rate problems and time calculations.',
+        subtopics: ['Work Rate', 'Pipe & Cistern', 'Combined Work', 'Negative Work'],
+        prerequisites: ['Percentage & Ratio'],
+        resources: [
+          { title: 'Time & Work Explained', type: 'Video' },
+          { title: 'Solved Examples', type: 'Notes' }
+        ]
+      },
+      {
+        id: '4',
+        name: 'Speed, Time & Distance',
+        status: 'pending',
+        progress: 0,
+        estimatedHours: 5,
+        lessonCount: 3,
+        description: 'Calculate speed, distance, and time with various motion scenarios.',
+        subtopics: ['Average Speed', 'Relative Motion', 'Trains', 'Boats & Streams'],
+        prerequisites: ['Time & Work'],
+        resources: []
+      },
+      {
+        id: '5',
+        name: 'Average & Partnership',
+        status: 'pending',
+        progress: 0,
+        estimatedHours: 4,
+        lessonCount: 2,
+        description: 'Learn average calculations and partnership profit sharing.',
+        subtopics: ['Average Formula', 'Weighted Average', 'Partnership Rules', 'Capital & Time'],
+        prerequisites: ['Speed, Time & Distance'],
+        resources: []
+      },
+      {
+        id: '6',
+        name: 'Profit & Loss',
+        status: 'pending',
+        progress: 0,
+        estimatedHours: 5,
+        lessonCount: 3,
+        description: 'Master profit, loss, and business calculations.',
+        subtopics: ['Cost Price & Selling Price', 'Discount', 'Commission', 'Mark-up'],
+        prerequisites: ['Percentage & Ratio'],
+        resources: []
+      },
     ]
   },
   {
@@ -47,11 +129,56 @@ const roadmapData: Subject[] = [
     completedTopics: 11,
     totalTopics: 15,
     estimatedDaysRemaining: 12,
+    topicOrder: ['7', '8', '9', '10'],
     topics: [
-      { id: '7', name: 'Error Detection', status: 'completed', progress: 100, estimatedHours: 6, lessonCount: 5 },
-      { id: '8', name: 'Synonyms & Antonyms', status: 'completed', progress: 100, estimatedHours: 4, lessonCount: 3 },
-      { id: '9', name: 'Sentence Improvement', status: 'in-progress', progress: 80, estimatedHours: 5, lessonCount: 4 },
-      { id: '10', name: 'Reading Comprehension', status: 'pending', progress: 0, estimatedHours: 8, lessonCount: 6 },
+      {
+        id: '7',
+        name: 'Error Detection',
+        status: 'completed',
+        progress: 100,
+        estimatedHours: 6,
+        lessonCount: 5,
+        description: 'Identify and correct grammatical errors in sentences.',
+        subtopics: ['Subject-Verb Agreement', 'Tense Usage', 'Pronoun Errors', 'Preposition Misuse'],
+        prerequisites: [],
+        resources: []
+      },
+      {
+        id: '8',
+        name: 'Synonyms & Antonyms',
+        status: 'completed',
+        progress: 100,
+        estimatedHours: 4,
+        lessonCount: 3,
+        description: 'Build vocabulary through similar and opposite words.',
+        subtopics: ['Word Meanings', 'Context Usage', 'Synonyms', 'Antonyms'],
+        prerequisites: [],
+        resources: []
+      },
+      {
+        id: '9',
+        name: 'Sentence Improvement',
+        status: 'in-progress',
+        progress: 80,
+        estimatedHours: 5,
+        lessonCount: 4,
+        description: 'Improve sentence structure and clarity.',
+        subtopics: ['Active-Passive Voice', 'Sentence Rearrangement', 'Coherence', 'Consistency'],
+        prerequisites: ['Error Detection'],
+        resources: []
+      },
+      {
+        id: '10',
+        name: 'Reading Comprehension',
+        status: 'pending',
+        progress: 0,
+        estimatedHours: 8,
+        lessonCount: 6,
+        description: 'Develop skills to understand and analyze passages.',
+        subtopics: ['Main Idea', 'Inference', 'Vocabulary in Context', 'Detail Questions'],
+        prerequisites: ['Sentence Improvement'],
+        resources: []
+      },
     ]
   },
   {
@@ -60,11 +187,56 @@ const roadmapData: Subject[] = [
     completedTopics: 4,
     totalTopics: 10,
     estimatedDaysRemaining: 22,
+    topicOrder: ['11', '12', '13', '14'],
     topics: [
-      { id: '11', name: 'Analogy & Classification', status: 'completed', progress: 100, estimatedHours: 5, lessonCount: 4 },
-      { id: '12', name: 'Coding-Decoding', status: 'in-progress', progress: 50, estimatedHours: 6, lessonCount: 4 },
-      { id: '13', name: 'Syllogism', status: 'pending', progress: 0, estimatedHours: 7, lessonCount: 5 },
-      { id: '14', name: 'Series & Sequence', status: 'pending', progress: 0, estimatedHours: 5, lessonCount: 3 },
+      {
+        id: '11',
+        name: 'Analogy & Classification',
+        status: 'completed',
+        progress: 100,
+        estimatedHours: 5,
+        lessonCount: 4,
+        description: 'Understand relationships and categorize items.',
+        subtopics: ['Analogical Reasoning', 'Classification Types', 'Logical Relationships'],
+        prerequisites: [],
+        resources: []
+      },
+      {
+        id: '12',
+        name: 'Coding-Decoding',
+        status: 'in-progress',
+        progress: 50,
+        estimatedHours: 6,
+        lessonCount: 4,
+        description: 'Crack patterns in coded messages.',
+        subtopics: ['Letter Coding', 'Number Coding', 'Symbol Coding', 'Mixed Coding'],
+        prerequisites: ['Analogy & Classification'],
+        resources: []
+      },
+      {
+        id: '13',
+        name: 'Syllogism',
+        status: 'pending',
+        progress: 0,
+        estimatedHours: 7,
+        lessonCount: 5,
+        description: 'Understand logical deduction and statement analysis.',
+        subtopics: ['Statement Analysis', 'Venn Diagrams', 'Conclusions', 'Assumptions'],
+        prerequisites: ['Coding-Decoding'],
+        resources: []
+      },
+      {
+        id: '14',
+        name: 'Series & Sequence',
+        status: 'pending',
+        progress: 0,
+        estimatedHours: 5,
+        lessonCount: 3,
+        description: 'Identify patterns and complete sequences.',
+        subtopics: ['Number Series', 'Letter Series', 'Alphanumeric Series', 'Missing Terms'],
+        prerequisites: ['Syllogism'],
+        resources: []
+      },
     ]
   },
   {
@@ -73,11 +245,56 @@ const roadmapData: Subject[] = [
     completedTopics: 8,
     totalTopics: 12,
     estimatedDaysRemaining: 15,
+    topicOrder: ['15', '16', '17', '18'],
     topics: [
-      { id: '15', name: 'History & Culture', status: 'completed', progress: 100, estimatedHours: 10, lessonCount: 8 },
-      { id: '16', name: 'Geography & Physical Features', status: 'in-progress', progress: 75, estimatedHours: 8, lessonCount: 6 },
-      { id: '17', name: 'Current Affairs 2024', status: 'pending', progress: 0, estimatedHours: 12, lessonCount: 10 },
-      { id: '18', name: 'Science & Technology', status: 'pending', progress: 0, estimatedHours: 8, lessonCount: 6 },
+      {
+        id: '15',
+        name: 'History & Culture',
+        status: 'completed',
+        progress: 100,
+        estimatedHours: 10,
+        lessonCount: 8,
+        description: 'Study Indian history, culture, and heritage.',
+        subtopics: ['Ancient India', 'Medieval Period', 'Modern History', 'Cultural Heritage'],
+        prerequisites: [],
+        resources: []
+      },
+      {
+        id: '16',
+        name: 'Geography & Physical Features',
+        status: 'in-progress',
+        progress: 75,
+        estimatedHours: 8,
+        lessonCount: 6,
+        description: 'Learn about Indian geography and natural features.',
+        subtopics: ['Landforms', 'Rivers & Lakes', 'Climate Zones', 'Vegetation'],
+        prerequisites: ['History & Culture'],
+        resources: []
+      },
+      {
+        id: '17',
+        name: 'Current Affairs 2024',
+        status: 'pending',
+        progress: 0,
+        estimatedHours: 12,
+        lessonCount: 10,
+        description: 'Stay updated with current events and news.',
+        subtopics: ['National News', 'International News', 'Sports', 'Science & Tech'],
+        prerequisites: ['Geography & Physical Features'],
+        resources: []
+      },
+      {
+        id: '18',
+        name: 'Science & Technology',
+        status: 'pending',
+        progress: 0,
+        estimatedHours: 8,
+        lessonCount: 6,
+        description: 'Understand scientific concepts and technological advancements.',
+        subtopics: ['Physics Basics', 'Chemistry Concepts', 'Biology', 'Tech Trends'],
+        prerequisites: ['Current Affairs 2024'],
+        resources: []
+      },
     ]
   }
 ]
@@ -154,102 +371,42 @@ export default function RoadmapPage() {
           </Card>
 
           {/* Subject Roadmaps */}
-          <div className="space-y-4">
+          <div className="space-y-8">
             {roadmapData.map((subject) => (
               <Card key={subject.name} className="overflow-hidden">
-                <button
-                  onClick={() => setExpandedSubject(expandedSubject === subject.name ? null : subject.name)}
-                  className="w-full p-6 hover:bg-muted/50 transition-colors text-left"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold mb-2">{subject.name}</h3>
+                <div className="p-6 border-b border-border">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2">{subject.name}</h3>
                       <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <span>{subject.completedTopics}/{subject.totalTopics} topics completed</span>
                         <span>•</span>
                         <span>{subject.estimatedDaysRemaining} days to complete</span>
                       </div>
                     </div>
-                    <div className="text-right mr-4">
-                      <p className="text-2xl font-bold text-primary">{subject.progress}%</p>
+                    <div className="text-right">
+                      <p className="text-3xl font-bold text-primary">{subject.progress}%</p>
                     </div>
                   </div>
                   
-                  <div className="w-full bg-muted rounded-full h-2 mt-4">
+                  <div className="w-full bg-muted rounded-full h-3">
                     <div 
-                      className="bg-primary rounded-full h-2 transition-all duration-300"
+                      className="bg-primary rounded-full h-3 transition-all duration-300"
                       style={{ width: `${subject.progress}%` }}
                     />
                   </div>
-                </button>
+                </div>
 
-                {/* Topics List */}
-                {expandedSubject === subject.name && (
-                  <div className="border-t border-border p-6 space-y-4">
-                    {subject.topics.map((topic) => (
-                      <div key={topic.id} className="border border-border rounded-lg p-4 hover:border-primary/50 transition-colors">
-                        <div className="flex items-start gap-4">
-                          <div className="pt-1">
-                            {topic.status === 'completed' && (
-                              <CheckCircle2 className="w-6 h-6 text-green-600" />
-                            )}
-                            {topic.status === 'in-progress' && (
-                              <Circle className="w-6 h-6 text-yellow-600 fill-yellow-100" />
-                            )}
-                            {topic.status === 'pending' && (
-                              <Circle className="w-6 h-6 text-muted-foreground" />
-                            )}
-                          </div>
-                          
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
-                              <h4 className="font-semibold">{topic.name}</h4>
-                              {topic.status === 'completed' && (
-                                <span className="text-xs bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200 px-2 py-1 rounded">
-                                  Completed
-                                </span>
-                              )}
-                              {topic.status === 'in-progress' && (
-                                <span className="text-xs bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200 px-2 py-1 rounded">
-                                  In Progress
-                                </span>
-                              )}
-                            </div>
-
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-                              <span>{topic.lessonCount} lessons</span>
-                              <span>•</span>
-                              <span>{topic.estimatedHours} estimated hours</span>
-                            </div>
-
-                            {topic.status !== 'completed' && (
-                              <>
-                                <div className="w-full bg-muted rounded-full h-2 mb-3">
-                                  <div 
-                                    className="bg-primary rounded-full h-2"
-                                    style={{ width: `${topic.progress}%` }}
-                                  />
-                                </div>
-                              </>
-                            )}
-
-                            <div className="flex gap-2">
-                              <Button size="sm" variant={topic.status === 'pending' ? 'outline' : 'default'}>
-                                <Play className="w-4 h-4 mr-2" />
-                                {topic.status === 'completed' ? 'Review' : 'Continue'}
-                              </Button>
-                              {topic.status !== 'completed' && (
-                                <Button size="sm" variant="outline">
-                                  Practice
-                                </Button>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {/* Interactive Roadmap */}
+                <div className="p-6">
+                  <InteractiveRoadmap 
+                    roadmapData={{
+                      subject: subject.name,
+                      topics: subject.topics,
+                      topicOrder: subject.topicOrder || subject.topics.map(t => t.id)
+                    }}
+                  />
+                </div>
               </Card>
             ))}
           </div>
